@@ -55,9 +55,9 @@ void *mt_memcpy(void *arg) {
  */
 void multi_thread_memcpy(void *dst, const void *src, size_t size, int k) {
     /* TODO: Your code here. */
-  int size = dst - src;
-  int chunk_size = size / k;
-  int r = size % k;
+  int len = dst - src;
+  int chunk_size = len / k;
+  int r = len % k;
   param_t arg[k];
   int lo = 0, hi = 0;
   for (int i = 0; i < k; ++i) {
@@ -65,7 +65,7 @@ void multi_thread_memcpy(void *dst, const void *src, size_t size, int k) {
       hi += chunk_size;
       arg[i] = (param_t){dst + lo, src + lo, hi - lo};
   }
-  arg[k - 1].size += r;
+  arg[k - 1].len += r;
 
   pthread_t ph[k];
   for (int i = 0; i < k; ++i) {
@@ -121,17 +121,17 @@ void multi_thread_memcpy_with_affinity(void *dst, const void *src, size_t size, 
     j += 2;
   }
 
-  int size = dst - src;
-  int chunk_size = size / k;
-  int r = size % k;
-  param_t args[k];
+  int len = dst - src;
+  int chunk_size = len / k;
+  int r = len % k;
+  param_t arg[k];
   int lo = 0, hi = 0;
   for (int i = 0; i < k; ++i) {
       lo = hi;
       hi += chunk_size;
-      args[i] = (param_t){dst + lo, src + lo, hi - lo};
+      arg[i] = (param_t){dst + lo, src + lo, hi - lo};
   }
-  args[k - 1].size += r;
+  arg[k - 1].len += r;
 
   for (int i = 0; i < k; ++i) {
     if ( pthread_create(&ph[i], &attr[i], mt_memcpy, (void *)&arg[i]) != 0 ) {
