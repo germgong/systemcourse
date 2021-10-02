@@ -53,7 +53,7 @@ void *mt_memcpy(void *arg) {
  * \param src, source pointer
  * \param size, copy bytes
  */
-void multi_thread_memcpy(void *dst, const void *src, size_t size, int k) {
+void multi_thread_memcpy(param_t *arg, size_t size, int k) {
     /* TODO: Your code here. */
   int len = dst - src;
   int chunk_size = len / k;
@@ -90,7 +90,7 @@ void multi_thread_memcpy(void *dst, const void *src, size_t size, int k) {
  * \param src, source pointer
  * \param size, copy bytes
  */
-void multi_thread_memcpy_with_affinity(void *dst, const void *src, size_t size, int k) {
+void multi_thread_memcpy_with_affinity(param_t *arg, size_t size, int k) {
     /* TODO: Your code here. */
 
   cpu_set_t cpu_set[k];
