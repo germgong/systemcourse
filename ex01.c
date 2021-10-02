@@ -40,15 +40,10 @@ void *mt_memcpy(void *arg) {
   float *src = param->src;
   size_t size = param->size;
 
-  float *in = (float *)src;
-  float *out = (float *)dst;
+  for (int i = 0; i < len; ++i) {
+    dst[i] += src[i];
+  }
 
-  for (size_t i = 0; i < size / 4; ++i) {
-    out[i] = in[i];
-  }
-  if (size % 4) {
-    memcpy(out + size / 4, in + size / 4, size % 4);
-  }
 
   return NULL;
 }
@@ -63,7 +58,9 @@ void *mt_memcpy(void *arg) {
 void multi_thread_memcpy(void *dst, const void *src, size_t size, int k) {
     /* TODO: Your code here. */
   //int len = dst - src;
-  float *srci = (float *)src;
+  float *in = (float *)src;
+  float *out = (float *)dst;
+
   int chunk_size = size / k;
   int r = size % k;
   param_t arg[k];
@@ -71,7 +68,7 @@ void multi_thread_memcpy(void *dst, const void *src, size_t size, int k) {
   for (int i = 0; i < k; ++i) {
       lo = hi;
       hi += chunk_size;
-      arg[i] = (param_t){dst + lo, srci + lo, hi - lo};
+      arg[i] = (param_t){out + lo, in + lo, hi - lo};
   }
   arg[k - 1].size += r;
 
@@ -129,8 +126,9 @@ void multi_thread_memcpy_with_affinity(void *dst, const void *src, size_t size, 
     j += 2;
   }
 
-  //int len = dst - src;
-  float *srci = (float *)src;
+  float *in = (float *)src;
+  float *out = (float *)dst;
+
   int chunk_size = size / k;
   int r = size % k;
   param_t arg[k];
@@ -138,7 +136,7 @@ void multi_thread_memcpy_with_affinity(void *dst, const void *src, size_t size, 
   for (int i = 0; i < k; ++i) {
       lo = hi;
       hi += chunk_size;
-      arg[i] = (param_t){dst + lo, srci + lo, hi - lo};
+      arg[i] = (param_t){out + lo, in + lo, hi - lo};
   }
   arg[k - 1].size += r;
 
