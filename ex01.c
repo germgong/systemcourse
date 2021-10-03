@@ -34,23 +34,17 @@ typedef struct {
  */
 void *mt_memcpy(void *arg) {
     /* TODO: Your code here. */
-  param_t *param = (param_t*)arg;
+  param_t *mt = (param_t *)arg;
 
-  float *dst = param->dst;
-  float *src = param->src;
-  size_t size = param->size;
+  float *dst = mt->dst;
+  float *src = mt->src;
+  size_t size = mt->size;
 
-  float *in = (float *)src;
-  float *out = (float *)dst;
-
-  for (size_t i = 0; i < size / 4; ++i) {
-    out[i] = in[i];
-  }
-  if (size % 4) {
-    memcpy(out + size / 4, in + size / 4, size % 4);
-  }
-
-  //memcpy(dst, src, size * sizeof(float));
+  //float *in = (float *)src;
+  //float *out = (float *)dst;
+  //memcpy(out, in, size * sizeof(float));
+  
+  memcpy(dst, src, size * sizeof(float));
   
   //memcpy(dst, src, len * sizeof(float));
 
@@ -75,7 +69,8 @@ void multi_thread_memcpy(void *dst, const void *src, size_t size, int k) {
   int chunk_size = size / k;
   int r = size % k;
   param_t args[k];
-  int lo = *in, hi = *in;
+  //int lo = *in, hi = *in;
+  int lo = 0, hi = 0;
   for (int i = 0; i < k; ++i) {
       lo = hi;
       hi += chunk_size;
@@ -148,7 +143,8 @@ void multi_thread_memcpy_with_affinity(void *dst, const void *src, size_t size, 
   int chunk_size = size / k;
   int r = size % k;
   param_t args[k];
-  int lo = *in, hi = *in;
+  //int lo = *in, hi = *in;
+  int lo = 0, hi = 0;
   for (int i = 0; i < k; ++i) {
       lo = hi;
       hi += chunk_size;
