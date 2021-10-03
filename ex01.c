@@ -69,6 +69,14 @@ void multi_thread_memcpy(void *dst, const void *src, size_t size, int k) {
   float *in = (float *)src;
   float *out = (float *)dst;
 
+  for (int i = 0; i < size; ++i) {
+    out[i] = (float)rand() / RAND_MAX;
+  }
+
+  for (int i = 0; i < size; ++i) {
+    in[i] = (float)rand() / RAND_MAX;
+  }
+
   //compute chunk size
   int chunk_size = size / k;
   int r = size % k;
@@ -119,9 +127,6 @@ void multi_thread_memcpy_with_affinity(void *dst, const void *src, size_t size, 
   assert( syscall(SYS_getcpu, &cpu, NULL, NULL) == 0 );
   printf("Main thread runs on CPU %d\n", cpu);
   int start = cpu % 2;
-
-  printf("Set affinity mask to include CPUs (%d, %d, %d, ...  %s)\n", start,
-           start + 2, start + 4, start ? "2n+1" : "2n");
   size_t nprocs = get_nprocs();
   int i = 0, j = start;
   while (i < k) {
@@ -142,6 +147,14 @@ void multi_thread_memcpy_with_affinity(void *dst, const void *src, size_t size, 
 
   float *in = (float *)src;
   float *out = (float *)dst;
+
+  for (int i = 0; i < size; ++i) {
+    out[i] = (float)rand() / RAND_MAX;
+  }
+
+  for (int i = 0; i < size; ++i) {
+    in[i] = (float)rand() / RAND_MAX;
+  }
 
   //compute chunk size
   int chunk_size = size / k;
