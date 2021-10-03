@@ -23,7 +23,6 @@ typedef struct {
   float *dst;
   float *src;
   size_t size;
-  int k;
 } param_t;
 
 
@@ -40,15 +39,12 @@ void *mt_memcpy(void *arg) {
   float *dst = param->dst;
   float *src = param->src;
   size_t size = param->size;
-  int k = param->k;
 
   float *in = (float *)src;
   float *out = (float *)dst;
 
-
-  while(1) {
-    memcpy(out, in, size);
-  }
+  memcpy(out, in, size);
+  
   //memcpy(dst, src, len * sizeof(float));
 
 
