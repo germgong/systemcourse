@@ -47,7 +47,7 @@ void *mt_memcpy(void *arg) {
   //memcpy(dst, src, len * sizeof(float));
 
 
-  //return NULL;
+  return NULL;
 }
 
 /*!
