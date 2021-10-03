@@ -71,7 +71,7 @@ void multi_thread_memcpy(void *dst, const void *src, size_t size, int k) {
 
   //compute chunk size
   int chunk_size = size / k;
-  //int r = size % k;
+  int r = size % k;
   param_t args[k];
   int lo = 0, hi = 0;
   for (int i = 0; i < k; ++i) {
@@ -145,7 +145,7 @@ void multi_thread_memcpy_with_affinity(void *dst, const void *src, size_t size, 
 
   //compute chunk size
   int chunk_size = size / k;
-  //int r = size % k;
+  int r = size % k;
   param_t args[k];
   int lo = 0, hi = 0;
   for (int i = 0; i < k; ++i) {
