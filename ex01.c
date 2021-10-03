@@ -43,7 +43,7 @@ void *mt_memcpy(void *arg) {
   float *in = (float *)src;
   float *out = (float *)dst;
 
-  memcpy(out, in, size);
+  memcpy(out, in, size * sizeof(float));
   
   //memcpy(dst, src, len * sizeof(float));
 
