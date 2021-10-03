@@ -71,6 +71,7 @@ void multi_thread_memcpy(void *dst, const void *src, size_t size, int k) {
   float *in = (float *)src;
   float *out = (float *)dst;
 
+  //compute chunk size
   int chunk_size = size / k;
   int r = size % k;
   param_t args[k];
@@ -108,6 +109,7 @@ void multi_thread_memcpy(void *dst, const void *src, size_t size, int k) {
 void multi_thread_memcpy_with_affinity(void *dst, const void *src, size_t size, int k) {
     /* TODO: Your code here. */
 
+  //set CPU affinity
   cpu_set_t cpu_set[k];
   pthread_attr_t attr[k];
   pthread_t ph[k];
@@ -139,6 +141,7 @@ void multi_thread_memcpy_with_affinity(void *dst, const void *src, size_t size, 
   float *in = (float *)src;
   float *out = (float *)dst;
 
+  //compute chunk size
   int chunk_size = size / k;
   int r = size % k;
   param_t args[k];
