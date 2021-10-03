@@ -81,7 +81,10 @@ void multi_thread_memcpy(void *dst, const void *src, size_t size, int k) {
       hi += chunk_size;
       args[i] = (param_t){out + lo, in + lo, hi - lo};
   }
-  args[k - 1].size += r;
+  //args[k - 1].dst += r;
+  if (r) { //extend the range of last chunk
+      args[k - 1].dst += r;
+  }
 
   pthread_t ph[k];
   for (int i = 0; i < k; ++i) {
@@ -151,7 +154,10 @@ void multi_thread_memcpy_with_affinity(void *dst, const void *src, size_t size, 
       hi += chunk_size;
       args[i] = (param_t){out + lo, in + lo, hi - lo};
   }
-  args[k - 1].size += r;
+  //args[k - 1].dst += r;
+  if (r) { //extend the range of last chunk
+      args[k - 1].dst += r;
+  }
 
   for (int i = 0; i < k; ++i) {
     if ( pthread_create(&ph[i], &attr[i], mt_memcpy, (void *)&args[i]) != 0 ) {
