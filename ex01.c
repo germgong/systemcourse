@@ -43,14 +43,9 @@ void *mt_memcpy(void *arg) {
   float *in = (float *)src;
   float *out = (float *)dst;
 
-  for (size_t i = 0; i < size / 4; ++i) {
-    out[i] = in[i];
-  }
-  if (size % 4) {
-    memcpy(out + size / 4, in + size / 4, size % 4);
-  }
+  
 
-  //memcpy(dst, src, size * sizeof(float));
+  memcpy(dst, src, size * sizeof(float));
 
 
   return NULL;
@@ -68,14 +63,6 @@ void multi_thread_memcpy(void *dst, const void *src, size_t size, int k) {
 
   float *in = (float *)src;
   float *out = (float *)dst;
-
-  for (int i = 0; i < size; ++i) {
-    out[i] = (float)rand() / RAND_MAX;
-  }
-
-  for (int i = 0; i < size; ++i) {
-    in[i] = (float)rand() / RAND_MAX;
-  }
 
   //compute chunk size
   int chunk_size = size / k;
@@ -147,14 +134,6 @@ void multi_thread_memcpy_with_affinity(void *dst, const void *src, size_t size, 
 
   float *in = (float *)src;
   float *out = (float *)dst;
-
-  for (int i = 0; i < size; ++i) {
-    out[i] = (float)rand() / RAND_MAX;
-  }
-
-  for (int i = 0; i < size; ++i) {
-    in[i] = (float)rand() / RAND_MAX;
-  }
 
   //compute chunk size
   int chunk_size = size / k;
