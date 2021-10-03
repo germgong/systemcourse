@@ -40,9 +40,9 @@ void *mt_memcpy(void *arg) {
   float *src = mt->src;
   size_t size = mt->size;
 
-  
-  
-  memcpy(dst, src, size * sizeof(float));
+  for (int i = 0; i < size; ++i) {
+    dst[i] += src[i];
+  }
   
   //memcpy(dst, src, len * sizeof(float));
 
