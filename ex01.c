@@ -43,10 +43,12 @@ void *mt_memcpy(void *arg) {
   float *in = (float *)src;
   float *out = (float *)dst;
 
-  
-
-  memcpy(dst, src, size * sizeof(float));
-
+  for (size_t i = 0; i < size / 4; ++i) {
+    out[i] = in[i];
+  }
+  if (size % 4) {
+    memcpy(out + size / 4, in + size / 4, size % 4);
+  }
 
   return NULL;
 }
