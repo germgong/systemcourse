@@ -40,10 +40,17 @@ void *mt_memcpy(void *arg) {
   float *src = param->src;
   size_t size = param->size;
 
-  //float *in = (float *)src;
-  //float *out = (float *)dst;
+  float *in = (float *)src;
+  float *out = (float *)dst;
 
-  memcpy(dst, src, size * sizeof(float));
+  for (size_t i = 0; i < size / 4; ++i) {
+    out[i] = in[i];
+  }
+  if (size % 4) {
+    memcpy(out + size / 4, in + size / 4, size % 4);
+  }
+
+  //memcpy(dst, src, size * sizeof(float));
   
   //memcpy(dst, src, len * sizeof(float));
 
@@ -211,7 +218,7 @@ int execute(const char *command, int len, int k)
   assert(src != NULL);
 
   /* warmup */
-  //memcpy(dst, src, len * sizeof(float));
+  memcpy(dst, src, len * sizeof(float));
 
   /* timing the memcpy */
   struct timespec start, end;
