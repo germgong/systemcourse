@@ -40,10 +40,10 @@ void *mt_memcpy(void *arg) {
   float *src = param->src;
   size_t size = param->size;
 
-  float *in = (float *)src;
-  float *out = (float *)dst;
+  //float *in = (float *)src;
+  //float *out = (float *)dst;
 
-  memcpy(out, in, size * sizeof(float));
+  memcpy(dst, src, size * sizeof(float));
   
   //memcpy(dst, src, len * sizeof(float));
 
