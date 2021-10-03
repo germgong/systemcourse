@@ -211,7 +211,7 @@ int execute(const char *command, int len, int k)
   assert(src != NULL);
 
   /* warmup */
-  memcpy(dst, src, len * sizeof(float));
+  //memcpy(dst, src, len * sizeof(float));
 
   /* timing the memcpy */
   struct timespec start, end;
