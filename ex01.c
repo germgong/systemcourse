@@ -69,17 +69,14 @@ void multi_thread_memcpy(void *dst, const void *src, size_t size, int k) {
   int chunk_size = size / k;
   int r = size % k;
   param_t args[k];
-  int lo = *src, hi = *src;
-  //int lo = 0, hi = 0;
-  for (int i = 0; i < k; ++i) {
+  int lo = 0, hi = 0;
+  for (int i = 0; i < k-1; ++i) {
       lo = hi;
       hi += chunk_size;
       args[i] = (param_t){out + lo, in + lo, hi - lo};
   }
-  //args[k - 1].dst += r;
-  if (r) { //extend the range of last chunk
-      args[k - 1].size += r;
-  }
+  args[k - 1] = (param_t){out + hi, in + hi, size - hi};
+  
 
   pthread_t ph[k];
   for (int i = 0; i < k; ++i) {
@@ -143,18 +140,13 @@ void multi_thread_memcpy_with_affinity(void *dst, const void *src, size_t size, 
   int chunk_size = size / k;
   int r = size % k;
   param_t args[k];
-  //int lo = *in, hi = *in;
-  int lo = *src, hi = *src;
-  //int lo = 0, hi = 0;
-  for (int i = 0; i < k; ++i) {
+  int lo = 0, hi = 0;
+  for (int i = 0; i < k-1; ++i) {
       lo = hi;
       hi += chunk_size;
       args[i] = (param_t){out + lo, in + lo, hi - lo};
   }
-  //args[k - 1].dst += r;
-  if (r) { //extend the range of last chunk
-      args[k - 1].size += r;
-  }
+  args[k - 1] = (param_t){out + hi, in + hi, size - hi};
 
   for (int i = 0; i < k; ++i) {
     if ( pthread_create(&ph[i], &attr[i], mt_memcpy, (void *)&args[i]) != 0 ) {
